@@ -1,303 +1,190 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { format, isBefore, isAfter, isToday } from 'date-fns'
-import { Calendar, Clock, MapPin, Heart, ChevronDown } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { Audiowide, Inter } from "next/font/google";
+import { MapPin, Clock } from "lucide-react";
 
+const AudiowideFont = Audiowide({ weight: "400", subsets: ["latin"] });
+const InterFont = Inter({ weight: ["200", "400", "600"], subsets: ["latin"] });
 
-type Event = {
-  id: string
-  title: string
-  description: string
-  image: string
-  location: string
-  date: Date
-  endDate?: Date
-}
-
-const events: Event[] = [
+const events = [
   {
-    id: '1',
-    title: 'Summer Music Festival',
-    description: 'A three-day music extravaganza featuring top artists from around the world.',
-    image: '/soothing.jpg?height=200&width=300',
-    location: 'Central Park, New York',
-    date: new Date(2024, 6, 15),
-    endDate: new Date(2024, 6, 17),
+    title: "Monthly Decree",
+    subtitle: "January 2025",
+    description:
+      "Our prophetic word for the month. A season of supernatural overflow and divine positioning.",
+    image: "/mantles.jpg",
+    location: "Main Sanctuary",
   },
   {
-    id: '2',
-    title: 'Tech Conference 2024',
-    description: 'Explore the latest innovations in technology and network with industry leaders.',
-    image: '/soothing.jpg?height=200&width=300',
-    location: 'Convention Center, San Francisco',
-    date: new Date(2024, 8, 5),
+    title: "Night of Power",
+    subtitle: "Friday Night Service",
+    description:
+      "An intensive atmosphere of worship, deliverance, and the raw power of God.",
+    image: "/soothing.jpg",
+    location: "Main Sanctuary",
   },
   {
-    id: '3',
-    title: 'Art Exhibition Opening',
-    description: 'Witness the unveiling of breathtaking artworks from emerging and established artists.',
-    image: '/soothing.jpg?height=200&width=300',
-    location: 'Modern Art Gallery, London',
-    date: new Date(2024, 3, 20),
+    title: "Youth Ignite",
+    subtitle: "Next Gen",
+    description:
+      "Gathering the fire-brand generation for a time of radical encounter.",
+    image: "/efam.jpg",
+    location: "Youth Hall",
   },
-  {
-    id: '4',
-    title: 'Food and Wine Festival',
-    description: 'Indulge in culinary delights and exquisite wines from around the globe.',
-    image: '/soothing.jpg?height=200&width=300',
-    location: 'Waterfront Park, San Diego',
-    date: new Date(2024, 9, 10),
-    endDate: new Date(2024, 9, 12),
-  },
-  {
-    id: '5',
-    title: 'International Film Festival',
-    description: 'Experience the best of world cinema with premieres, panel discussions, and special screenings.',
-    image: '/soothing.jpg?height=200&width=300',
-    location: 'Various Theaters, Toronto',
-    date: new Date(2024, 8, 7),
-    endDate: new Date(2024, 8, 17),
-  },
-  {
-    id: '6',
-    title: 'Marathon for Charity',
-    description: 'Run for a cause in this annual marathon supporting local charities.',
-    image: '/soothing.jpg?height=200&width=300',
-    location: 'City Center, Chicago',
-    date: new Date(2024, 4, 1),
-  },
-]
+];
 
-export default function EventList() {
-  const [filteredEvents, setFilteredEvents] = useState(events)
-  const [filterDate, setFilterDate] = useState('')
-  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
-  const [expandedEvent, setExpandedEvent] = useState<string | null>(null)
+export default function ChurchLifeSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (filterDate) {
-      const filtered = events.filter(event => 
-        format(event.date, 'yyyy-MM-dd') === filterDate
-      )
-      setFilteredEvents(filtered)
-    } else {
-      setFilteredEvents(events)
-    }
-  }, [filterDate])
-
-  const getEventStatus = (event: Event) => {
-    const now = new Date()
-    if (isToday(event.date)) return 'today'
-    if (isBefore(event.date, now)) return 'past'
-    if (event.endDate && isAfter(now, event.date) && isBefore(now, event.endDate)) return 'ongoing'
-    return 'upcoming'
-  }
-
-  const toggleEventExpansion = (eventId: string) => {
-    setExpandedEvent(expandedEvent === eventId ? null : eventId)
-  }
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <motion.h1 
-        className="text-5xl font-bold mb-2 text-center text-white"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        Discover Exciting Events
-      </motion.h1>
-      <motion.p 
-        className="text-xl text-center mb-8 text-muted-foreground"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      >
-        Explore a world of experiences waiting for you!
-      </motion.p>
-
-      <div className="mb-6 flex items-start justify-start flex-col gap-2">
-        <Label htmlFor="date-filter " className='text-white font-semibold'>Filter by date</Label>
-        <Input
-          id="date-filter"
-          type="date"
-          value={filterDate}
-          onChange={(e) => setFilterDate(e.target.value)}
-          className="mt-1 max-w-md text-white"
-        />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <AnimatePresence>
-          {filteredEvents.map((event, index) => (
-            <motion.div
-              key={event.id}
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -50 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-card text-card-foreground shadow-lg rounded-lg overflow-hidden"
-            >
-              <motion.img 
-                className="h-60 w-full object-cover"
-                src={event.image}
-                alt={event.title}
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              />
-              <div className="p-6">
-                <motion.h3 
-                  className="text-lg font-semibold mb-2"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  {event.title}
-                </motion.h3>
-                <motion.div 
-                  className="flex items-center mb-2"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  <MapPin className="h-4 w-4 mr-2 text-primary" />
-                  <span className="text-sm text-muted-foreground">{event.location}</span>
-                </motion.div>
-                <motion.div 
-                  className="flex items-center mb-2"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  <Calendar className="h-4 w-4 mr-2 text-primary" />
-                  <span className="text-sm text-muted-foreground">{format(event.date, 'MMMM d, yyyy')}</span>
-                </motion.div>
-                <motion.div 
-                  className="flex items-center mb-4"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.6 }}
-                >
-                  <Clock className="h-4 w-4 mr-2 text-primary" />
-                  <span className="text-sm text-muted-foreground">{format(event.date, 'h:mm a')}</span>
-                </motion.div>
-                {getEventStatus(event) === 'past' && (
-                  <Badge variant="secondary" className="mb-4">Past Event</Badge>
-                )}
-                {getEventStatus(event) === 'ongoing' && (
-                  <Badge variant="default" className="mb-4">Ongoing</Badge>
-                )}
-                <AnimatePresence>
-                  {expandedEvent === event.id && (
-                    <motion.p
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="text-sm text-muted-foreground mb-4"
-                    >
-                      {event.description}
-                    </motion.p>
-                  )}
-                </AnimatePresence>
-                <div className="flex justify-between items-center">
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button 
-                        variant={getEventStatus(event) === 'today' ? 'default' : 'outline'}
-                        onClick={() => setSelectedEvent(event)}
-                        className="relative overflow-hidden"
-                      >
-                        {getEventStatus(event) === 'today' && (
-                          <motion.div
-                            className="absolute inset-0 bg-red-500 opacity-30"
-                            animate={{ scale: [1, 1.2, 1] }}
-                            transition={{ repeat: Infinity, duration: 1.5 }}
-                          />
-                        )}
-                        <Heart className={`mr-2 h-4 w-4 ${getEventStatus(event) === 'today' ? 'text-red-500' : ''}`} />
-                        Learn More
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <EventDetails event={selectedEvent} />
-                    </DialogContent>
-                  </Dialog>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => toggleEventExpansion(event.id)}
-                    aria-label={expandedEvent === event.id ? "Collapse description" : "Expand description"}
-                  >
-                    <motion.div
-                      animate={{ rotate: expandedEvent === event.id ? 180 : 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <ChevronDown className="h-4 w-4" />
-                    </motion.div>
-                  </Button>
-                </div>
-              </div>
-            </motion.div>
+    /* -mt-[10px] pulls it up to overlap the previous section.
+       The border-t-[10px] fills that overlap with solid black.
+    */
+    <section
+      ref={containerRef}
+      className="relative bg-black -mt-[530px] border-t-[10px] border-black z-[60] w-full"
+      style={{ height: "350vh" }}
+    >
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col">
+        {/* IMAGES */}
+        <div className="absolute inset-0 w-full h-full">
+          {events.map((event, i) => (
+            <BackgroundImage
+              key={`bg-${i}`}
+              index={i}
+              total={events.length}
+              progress={scrollYProgress}
+              src={event.image}
+            />
           ))}
-        </AnimatePresence>
+        </div>
+
+        {/* PINNED TITLE - Responsive Text Size */}
+        <div className="relative z-30 pt-8 md:pt-12 px-6 md:px-12">
+          <h2
+            className={`text-3xl md:text-8xl text-white ${AudiowideFont.className} tracking-tighter uppercase leading-none`}
+          >
+            CHURCH <span className="italic">LIFE</span>
+          </h2>
+        </div>
+
+        {/* CONTENT OVERLAY - Mobile Padding Adjusted */}
+        <div className="relative z-20 flex-1 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-end pb-10 md:pb-20">
+          {events.map((event, i) => (
+            <EventText
+              key={`text-${i}`}
+              index={i}
+              total={events.length}
+              progress={scrollYProgress}
+              event={event}
+            />
+          ))}
+        </div>
+
+        {/* MOBILE-FRIENDLY PROGRESS BAR */}
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-white/5 z-40">
+          <motion.div
+            className="h-full bg-amber-500 origin-left"
+            style={{ scaleX: scrollYProgress }}
+          />
+        </div>
       </div>
-    </div>
-  )
+    </section>
+  );
 }
 
-function EventDetails({ event }: { event: Event | null }) {
-  if (!event) return null
+function BackgroundImage({
+  index,
+  total,
+  progress,
+  src,
+}: {
+  index: number;
+  total: number;
+  progress: MotionValue<number>;
+  src: string;
+}) {
+  const start = index / total;
+  const end = (index + 1) / total;
+
+  const opacity = useTransform(
+    progress,
+    [start, start + 0.1, end - 0.1, end],
+    [0, 1, 1, 0]
+  );
+  const scale = useTransform(progress, [start, end], [1.1, 1.2]);
 
   return (
-    <>
-      <DialogHeader>
-        <DialogTitle>{event.title}</DialogTitle>
-      </DialogHeader>
-      <div className="mt-4">
-        <motion.img 
-          src={event.image} 
-          alt={event.title} 
-          className="w-full h-48 object-cover rounded-md"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        />
-        <motion.p 
-          className="mt-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
+    <motion.div style={{ opacity }} className="absolute inset-0">
+      <motion.img
+        style={{ scale }}
+        src={src}
+        className="w-full h-full object-cover"
+        alt=""
+      />
+      {/* Darkened overlay for mobile readability */}
+      <div className="absolute inset-0 bg-black/70 md:bg-black/50" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+    </motion.div>
+  );
+}
+
+function EventText({
+  index,
+  total,
+  progress,
+  event,
+}: {
+  index: number;
+  total: number;
+  progress: MotionValue<number>;
+  event: any;
+}) {
+  const start = index / total;
+  const end = (index + 1) / total;
+
+  const opacity = useTransform(
+    progress,
+    [start + 0.05, start + 0.15, end - 0.15, end - 0.05],
+    [0, 1, 1, 0]
+  );
+  const y = useTransform(progress, [start + 0.05, start + 0.15], [30, 0]);
+
+  return (
+    <motion.div
+      style={{ opacity, y }}
+      className="absolute bottom-10 md:bottom-20 left-0 right-0 w-full"
+    >
+      <div className="max-w-4xl px-2">
+        <span className="text-amber-500 text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] mb-3 md:mb-5 block">
+          {event.subtitle}
+        </span>
+        <h3
+          className={`text-4xl md:text-9xl text-white mb-4 md:mb-8 leading-[0.9] tracking-tighter ${AudiowideFont.className}`}
+        >
+          {event.title}
+        </h3>
+        <p
+          className={`text-gray-300 text-xs md:text-xl font-light max-w-2xl leading-relaxed italic border-l border-amber-500 pl-4 md:pl-6 ${InterFont.className}`}
         >
           {event.description}
-        </motion.p>
-        <motion.div 
-          className="mt-4 space-y-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-        >
-          <div className="flex items-center">
-            <MapPin className="h-4 w-4 mr-2 text-primary" />
-            <span>{event.location}</span>
-          </div>
-          <div className="flex items-center">
-            <Calendar className="h-4 w-4 mr-2 text-primary" />
-            <span>{format(event.date, 'MMMM d, yyyy')}</span>
-          </div>
-          <div className="flex items-center">
-            <Clock className="h-4 w-4 mr-2 text-primary" />
-            <span>{format(event.date, 'h:mm a')}</span>
-          </div>
-        </motion.div>
+        </p>
+        <div className="mt-6 flex gap-4 md:gap-8 items-center text-[9px] md:text-xs text-white/40 uppercase tracking-widest font-semibold">
+          <span className="flex items-center gap-2">
+            <MapPin size={12} className="text-amber-500" /> {event.location}
+          </span>
+          <span className="flex items-center gap-2">
+            <Clock size={12} className="text-amber-500" /> 09:00 AM
+          </span>
+        </div>
       </div>
-    </>
-  )
+    </motion.div>
+  );
 }

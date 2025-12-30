@@ -47,7 +47,7 @@ export default function RootLayout({
         className={`${ibmPlexSerif.className}  antialiased scroll-smooth`}
 
       >
-        <main className="w-full h-full overflow-hidden" style={{
+        <main className="w-full h-full" style={{
           boxSizing: "border-box"
         }}>
           <Navbar />

@@ -1,167 +1,112 @@
 'use client'
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronUp, ChevronDown, Circle } from 'lucide-react'
-import { TextGenerateEffect } from './ui/text-generate-effect'
-import { Audiowide } from "next/font/google";
-import { Spotlight } from './ui/Spotlight'
+import React from 'react'
+import { motion } from 'framer-motion'
+import { Audiowide, Inter } from "next/font/google"
+import { Users, Church, MapPin, MonitorPlay, ArrowRight } from 'lucide-react'
+import Link from 'next/link'
 
 const AudiowideFont = Audiowide({ weight: "400", subsets: ["latin"], display: "swap" });
+const InterFont = Inter({ weight: ["200", "400"], subsets: ["latin"] });
 
-const experiences = [
-    {
-        title: 'Join Overcomers Church Community',
-        description: 'Become part of a vibrant, supportive community of believers.',
-        image: '/connecting_1_graphic.jpg?height=700&width=600',
-        color: 'bg-blue-500',
-        spot: "blue",
-        cta: 'Join Now',
-    },
-    {
-        title: 'Give or Donate to the Church Mission',
-        description: 'Support our mission to spread love and hope around the world.',
-        image: '/investmetn.jpeg?height=700&width=600',
-        color: 'bg-green-500',
-        spot: "green",
-        cta: 'Donate',
-    },
-    {
-        title: 'Find Your Space',
-        description: 'Discover your unique gifts and serve in our various ministries.',
-        image: '/mantles.jpg?height=700&width=600',
-        color: 'bg-purple-500',
-        spot: "purple",
-        cta: 'Explore Ministries',
-    },
-    {
-        title: 'Find Your Space',
-        description: 'Discover your unique gifts and serve in our various ministries.',
-        image: '/mantles.jpg?height=700&width=600',
-        color: 'bg-yellow-500',
-        spot: "purple",
-        cta: 'Explore Ministries',
-    },
-]
+const cards = [
+  {
+    title: 'Connect With Us',
+    description: 'Find your people and grow in faith with a community that cares.',
+    icon: <Users className="w-5 h-5" />,
+    link: '/coming-soon',
+    size: 'md:col-span-2', 
+    image: '/connecting_1_graphic.jpg',
+    baseColor: 'bg-[#1a237e]' // Deep Professional Blue
+  },
+  {
+    title: 'Our Services',
+    description: 'Experience powerful worship and transformative messages.',
+    icon: <Church className="w-5 h-5" />,
+    link: '/coming-soon',
+    size: 'md:col-span-1',
+    image: '/services.jpg',
+    baseColor: 'bg-[#4a148c]' // Deep Professional Purple
+  },
+  {
+    title: 'Location',
+    description: 'Visit us in person. We have a seat saved just for you.',
+    icon: <MapPin className="w-5 h-5" />,
+    link: '/coming-soon',
+    size: 'md:col-span-1',
+    image: '/location.jpg',
+    baseColor: 'bg-[#004d40]' // Deep Professional Teal
+  },
+  {
+    title: 'eFam Online',
+    description: 'No matter where you are, you are part of the family.',
+    icon: <MonitorPlay className="w-5 h-5" />,
+    link: '/coming-soon',
+    size: 'md:col-span-2',
+    image: '/efam.jpg',
+    baseColor: 'bg-[#3e2723]' // Deep Professional Earth/Brown
+  }
+];
 
-export default function ChurchExperienceTimeline() {
-    const [currentExperience, setCurrentExperience] = useState(0)
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentExperience((prev) => (prev + 1) % experiences.length)
-        }, 10000) // Change experience every 10 seconds
-
-        return () => clearInterval(timer)
-    }, [])
-
-    const nextExperience = () => {
-        setCurrentExperience((prev) => (prev + 1) % experiences.length)
-    }
-
-    const prevExperience = () => {
-        setCurrentExperience((prev) => (prev - 1 + experiences.length) % experiences.length)
-    }
-
-    return (
-        <div className={`w-full mx-auto relative space-y-10 p-6 ${AudiowideFont.className}`}>
-            {/* Background Image */}
-            <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{
-                    backgroundImage: "url('/efam.jpg?height=1080&width=1920')",
-                    filter: 'grayscale(100%)',
-                    zIndex: 0,
-                    height: '100%', // Ensure it fills the height
-                }}
-            />
-    
-            {/* Overlay for opacity */}
-            <div
-                className="absolute inset-0 bg-black bg-opacity-40"
-                style={{ zIndex: 1 }}
-            />
-    
-            {/* Content */}
-            <div className="relative z-10">
-                <h2 className={`text-3xl w-70 flex items-center justify-between font-bold mb-8 tracking-wide leading-10 text-wrap ${AudiowideFont.className}`}>
-                    Start Your Experience with Our Church
-                </h2>
-    
-                <Spotlight
-                    className="-top-10 right-0 md:right-10 md:-top-10"
-                    fill={experiences[currentExperience].spot ?? "blue"}
-                />
-    
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={currentExperience}
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -50 }}
-                        transition={{ duration: 0.5 }}
-                        className="flex flex-col ml-4 md:flex-row items-center gap-6"
-                    >
-                        <div className="w-full md:w-1/2">
-                            <img
-                                src={experiences[currentExperience].image}
-                                alt={experiences[currentExperience].title}
-                                className="w-full h-100 object-cover rounded-lg shadow-md"
-                            />
-                        </div>
-                        <div className="w-full md:w-1/2 space-y-4">
-                            <h3 className="text-2xl font-semibold">{experiences[currentExperience].title}</h3>
-                            <p className="text-gray-600">{experiences[currentExperience].description}</p>
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className={`px-6 py-2 text-white rounded-full ${experiences[currentExperience].color}`}
-                            >
-                                {experiences[currentExperience].cta}
-                            </motion.button>
-                        </div>
-                    </motion.div>
-                </AnimatePresence>
-    
-                {/* Timeline */}
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-gray-200">
-                    <motion.div
-                        className={`absolute w-full ${experiences[currentExperience].color}`}
-                        initial={{ height: '0%' }}
-                        animate={{ height: '100%' }}
-                        transition={{ duration: 10, ease: 'linear' }}
-                    />
-                </div>
-    
-                {/* Navigation controls */}
-                <div className="absolute md:right-10 right-0 top-1/2 transform -translate-y-1/2 flex flex-col items-center space-y-4">
-                    <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={prevExperience}
-                        className="p-2 bg-gray-200 rounded-full"
-                    >
-                        <ChevronUp size={24} />
-                    </motion.button>
-                    {experiences.map((_, index) => (
-                        <motion.button
-                            key={index}
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                            onClick={() => setCurrentExperience(index)}
-                            className={`w-3 h-3 rounded-full ${index === currentExperience ? experiences[currentExperience].color : 'bg-gray-300'}`}
-                        />
-                    ))}
-                    <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={nextExperience}
-                        className="p-2 bg-gray-200 rounded-full"
-                    >
-                        <ChevronDown size={24} />
-                    </motion.button>
-                </div>
-            </div>
+export default function WelcomeHomeSection() {
+  return (
+    /* 1. FIX SPACE: Changed from margin to absolute positioning for the start of the section 
+       to ensure it sits exactly where the Hero ends with ZERO gap. */
+    <section className={`bg-black pb-26 ${InterFont.className}`} style={{ marginTop: '-120px' }}>
+      
+      <div className="max-w-10xl mx-auto px-6">
+        
+        {/* Header Section: Very Visible and Clean */}
+        <div className="mb-12 flex flex-col items-start border-l-4 border-white pl-8">
+          <h2 className={`text-4xl md:text-6xl text-white mb-3 tracking-tighter ${AudiowideFont.className}`}>
+            WELCOME <span className="text-white">HOME</span>
+          </h2>
+          <p className="max-w-2xl text-white text-base md:text-lg font-light leading-relaxed opacity-90">
+            Explore our community, join our services, or find us online. 
+            There is a place for you here at Overcomers Chapel International.
+          </p>
         </div>
-    );
-    
+
+        {/* Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {cards.map((card, index) => (
+            <Link href={card.link} key={index} className={card.size}>
+              <motion.div
+                whileHover={{ y: -5 }}
+                className={`group relative h-[320px] rounded-3xl overflow-hidden border border-white/10 ${card.baseColor} flex flex-col justify-end p-10 transition-all duration-500`}
+              >
+                {/* IMAGE REVEAL: Strictly hidden (opacity-0) and only shows DIMLY on hover */}
+                <div 
+                  className="absolute inset-0 z-0 opacity-0 group-hover:opacity-40 transition-opacity duration-700 bg-cover bg-center"
+                  style={{ backgroundImage: `url(${card.image})` }}
+                />
+                
+                {/* Gradient Overlay for professional depth */}
+                <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
+
+                {/* Content Layer: Always Very Visible */}
+                <div className="relative z-20">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="p-3 rounded-2xl bg-white/20 text-white backdrop-blur-md">
+                      {card.icon}
+                    </div>
+                    <h3 className={`text-2xl text-white font-normal ${AudiowideFont.className} tracking-wide`}>
+                      {card.title}
+                    </h3>
+                  </div>
+                  
+                  <p className="text-white text-sm font-normal leading-relaxed mb-8 max-w-[90%] opacity-100">
+                    {card.description}
+                  </p>
+
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.3em] text-white">
+                    Explore <ArrowRight className="w-4 h-4 group-hover:translate-x-3 transition-transform duration-300" />
+                  </div>
+                </div>
+              </motion.div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
 }

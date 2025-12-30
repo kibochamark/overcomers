@@ -4,7 +4,7 @@ import EventList from "@/components/Events";
 import ChurchHero from "@/components/HeroSection";
 import ChurchServicePlayer from "@/components/LatestVideo";
 import OrderOfServices from "@/components/OrderOfService";
-import { TimelineDemo } from "@/components/OurLeaders";
+import TimelineDemo from "@/components/OurLeaders";
 import { div } from "framer-motion/client";
 import Image from "next/image";
 
@@ -13,31 +13,29 @@ export default function Home() {
     <div className="">
       {/* hero section */}
       <ChurchHero />
-
       {/* church experience */}
-
-      <div className="w-full bg-gray-100 -top-10">
-        <div className="w-full md:px-10 py-20">
+      <div className="-top-80 relative pb-80">
+        <div className="py-20">
           <ChurchExperienceTimeline />
         </div>
       </div>
 
       {/* events */}
-      <div className="bg-gradient-to-tr from-primary300 via-primary200 to-primary100 md:p-20 py-20">
+      <div className="">
         <EventList />
       </div>
 
 
 {/* e fam */}
-      <div className="relative md:px-20 px-0 bg-gray-100">
+      {/* <div className="relative md:px-20 px-0 bg-gray-100">
         <EFamilyJoin />
-      </div>
+      </div> */}
 
 
       {/* video */}
-      <div className="bg-gradient-to-tl from-gray-900 via-gray-800 to-gray-100px-0 py-8 md:px-20">
+      {/* <div className="bg-gradient-to-tl from-gray-900 via-gray-800 to-gray-100px-0 py-8 md:px-20">
         <ChurchServicePlayer />
-      </div>
+      </div> */}
 
       {/* our leadership */}
       <div className="w-full">
@@ -46,7 +44,7 @@ export default function Home() {
 
 
       {/* order of services */}
-      <div className="relative p-20">
+      {/* <div className="relative p-20">
       <div 
         className="absolute inset-0 bg-cover bg-fixed bg-center z-0" 
         style={{ backgroundImage: "url('/schedule.jpg?height=1080&width=1920')" }}
@@ -54,7 +52,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-black bg-opacity-40"></div>
       </div>
         <OrderOfServices/>
-      </div>
+      </div> */}
 
     </div>
   );

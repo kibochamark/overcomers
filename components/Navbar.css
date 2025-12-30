@@ -1,133 +1,224 @@
-/* CTA underline always visible (white by default) */
-.first-cta, .second-cta, .third-cta, .fourth-cta, .fifth-cta, .sixth-cta {
-  border-bottom: 2px solid white; /* White underline */
-  color: black; /* Default text color */
-  transition: color 1.0s ease, border-color 1.0s ease;
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&display=swap");
+
+/* NAVBAR */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100; /* Increased for safety */
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(12px);
 }
 
-/* Hover effect to change text and underline to purple */
-.first-cta:hover, .second-cta:hover, .third-cta:hover, .fourth-cta:hover, .fifth-cta:hover, .sixth-cta:hover {
-  color: purple;
-  border-bottom-color: purple;
-}
-
-/* Menu Dropdown */
-@keyframes dropDown {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(0); }
-}
-@keyframes slideLeft {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(0); }
-}
-@keyframes slideRight {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(0); }
-}
-
-/* Dropdown transition per animation */
-.dropdown-fullscreen.animation-0 {
-  animation: dropDown 1.2s ease forwards;
-  background-color: rgba(0, 0, 0, 0.85); /* Black background with transparency */
-}
-.dropdown-fullscreen.animation-1 {
-  animation: slideLeft 1.2s ease forwards;
-  background-color: rgba(51, 51, 51, 0.85); /* Dark grey with transparency */
-}
-.dropdown-fullscreen.animation-2 {
-  animation: slideRight 1.2s ease forwards;
-  background-color: rgba(0, 0, 0, 0.85); /* Return to black with transparency */
-}
-
-/* Navbar transition for scroll */
-.navbar-scroll {
-  transition: background-color 0.3s ease;
-}
-.navbar-scroll.bg-black {
-  background-color: black;
-}
-
-/* Dropdown Styling */
-.dropdown-content {
-  padding: 20px;
-  color: white;
-}
-
-.verse-section {
-  text-align: center;
-  margin-bottom: 20px;
-}
-.verse {
-  font-size: 1.2rem;
-  color: white; /* White verse */
-}
-
-/* Sermon Images */
-.sermon-images {
+.nav-container {
+  max-width: 1300px;
+  margin: auto;
+  padding: 14px 22px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* LOGO */
+.nav-left {
+  display: flex;
+  align-items: center;
   gap: 10px;
 }
-.sermon-img {
-  width: 150px;
-  height: 100px;
-  border-radius: 8px;
+
+.logo-image {
+  width: 36px;
+  height: 36px;
+}
+
+.logo-text {
+  font-family: "Audiowide", cursive;
+  color: white;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+/* NAV */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav-item {
+  position: relative;
+  /* This creates a 'bridge' so the menu doesn't close when moving mouse down */
+  padding-bottom: 20px;
+  margin-bottom: -20px;
+}
+
+/* LABEL */
+.nav-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+/* LINKS */
+.nav-link {
+  font-family: "Audiowide", cursive;
+  color: white;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 6px;
+}
+
+/* UNDERLINE */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background: white;
+  transition: width 0.6s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* DESKTOP DROPDOWN LOGIC */
+.nav-item:hover .dropdown {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  visibility: visible;
+}
+
+/* DROPDOWN STYLING */
+.dropdown {
+  position: absolute;
+  top: 45px; /* Aligned better */
+  left: 0;
+  background: white;
+  border-radius: 14px;
+  min-width: 220px;
+  padding: 10px 0;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(14px);
+  pointer-events: none;
+  transition: all 0.3s ease;
+  list-style: none;
+  margin: 0;
+}
+
+.dropdown a {
+  display: block;
+  padding: 12px 20px;
+  color: black;
+  text-decoration: none;
+  font-family: "Audiowide", cursive;
+  font-size: 0.85rem;
+  transition: background 0.35s ease, color 0.35s ease;
+}
+
+.dropdown a:hover {
+  background: #f0f0f0;
+  color: black;
+  padding-left: 25px; /* Subtle professional touch */
+}
+
+/* GIVE BUTTON */
+.give-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.give-icon {
+  font-size: 0.85rem;
+}
+
+/* MOBILE STYLES */
+.mobile-toggle {
+  display: none;
+  background: none;
+  color: white;
+  font-size: 1.8rem;
+  border: none;
+  cursor: pointer;
+}
+
+.mobile-arrow {
+  display: none;
+  color: white;
+  font-size: 0.75rem;
+  cursor: pointer;
   transition: transform 0.3s ease;
 }
-.sermon-img:hover {
-  transform: scale(1.1);
-}
 
-/* Social Media Section */
-.social-media-section {
-  text-align: center;
-  margin-top: 20px;
-}
-.social-icon {
-  display: inline-block;
-  margin: 0 10px;
-  font-size: 1.5rem;
-  transition: color 0.3s ease;
-  color: white; /* White icons */
-}
-.social-icon:hover {
-  color: purple; /* Purple hover effect */
-}
-
-/* Extra Links */
-.extra-links {
-  text-align: center;
-  margin-top: 20px;
-}
-.dropdown-button {
-  display: block;
-  margin: 10px auto;
-  padding: 10px 20px;
-  background-color: white;
-  color: black;
-  border-radius: 4px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-.dropdown-button:hover {
-  background-color: black;
-  color: white;
-}
-
-/* Mobile CTA adjustment */
 @media (max-width: 768px) {
-  .nav-link {
-    font-size: 0.85rem;
-  }
-  .navbar .container {
-    justify-content: space-between;
+  .mobile-toggle {
+    display: block;
   }
 
-  /* Show only two CTAs for small screens */
-  .hidden.md\\:flex {
-    display: flex;
+  .nav-right {
+    position: fixed; /* Fixed is better for mobile overlays */
+    top: 64px;
+    right: -100%; /* Slide in effect */
+    width: 80%;
+    height: calc(100vh - 64px);
     flex-direction: column;
+    background: rgba(10, 10, 10, 0.98);
+    padding: 40px 20px;
+    gap: 25px;
+    transition: right 0.4s ease;
+    align-items: flex-start;
+    overflow-y: auto;
   }
-}
-.button{
-  color: black;
+
+  .nav-right.open {
+    right: 0;
+  }
+
+  .mobile-arrow {
+    display: inline;
+  }
+
+  .nav-item {
+    width: 100%;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .nav-label {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .dropdown {
+    position: relative;
+    top: 0;
+    width: 100%;
+    background: transparent;
+    box-shadow: none;
+    max-height: 0;
+    padding: 0;
+    overflow: hidden;
+    opacity: 1; /* Keep 1, control via height */
+    visibility: visible;
+    transform: none;
+    pointer-events: auto;
+    transition: max-height 0.4s ease;
+  }
+
+  .dropdown.mobile-show {
+    max-height: 500px;
+    padding: 10px 0;
+  }
+
+  .dropdown a {
+    color: #ccc;
+    padding: 10px 15px;
+  }
 }
