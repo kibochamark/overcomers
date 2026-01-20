@@ -14,40 +14,40 @@ export default function Home() {
       {/* hero section */}
       <ChurchHero />
       {/* church experience */}
-      <div className="-top-80 relative pb-80">
-        <div className="py-20">
+      <div className="top-80">
+        <div className="">
           <ChurchExperienceTimeline />
         </div>
       </div>
 
       {/* events */}
-      <div className="">
+      {/* <div className="">
         <EventList />
-      </div>
-
-
-{/* e fam */}
-      {/* <div className="relative md:px-20 px-0 bg-gray-100">
-        <EFamilyJoin />
       </div> */}
+
+      {/* 
+      {/* e fam */}
+            {/* <div className="relative">
+              <EFamilyJoin />
+            </div>  */}
 
 
       {/* video */}
-      {/* <div className="bg-gradient-to-tl from-gray-900 via-gray-800 to-gray-100px-0 py-8 md:px-20">
+      {/* <div className="">
         <ChurchServicePlayer />
       </div> */}
 
       {/* our leadership */}
-      <div className="w-full">
+      {/* <div className="w-full">
         <TimelineDemo />
-      </div>
+      </div> */}
 
 
       {/* order of services */}
-      {/* <div className="relative p-20">
+      {/* <div className="relative">
       <div 
-        className="absolute inset-0 bg-cover bg-fixed bg-center z-0" 
-        style={{ backgroundImage: "url('/schedule.jpg?height=1080&width=1920')" }}
+        className="" 
+        style={{ }}
       >
         <div className="absolute inset-0 bg-black bg-opacity-40"></div>
       </div>

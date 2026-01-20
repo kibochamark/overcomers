@@ -52,7 +52,7 @@ export default function RootLayout({
         }}>
           <Navbar />
           {children}
-          <ModernChurchFooter />
+          {/* <ModernChurchFooter /> */}
           <ScrollToTopButton />
         </main>
 

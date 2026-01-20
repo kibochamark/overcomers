@@ -117,7 +117,7 @@ export default function HeroSection() {
       <div className="relative w-full">
         <div className="sticky top-0 w-full h-[40vh] md:h-[45vh]">
           <img
-            src="/efam.jpg"
+            src="/bent-knees-and-lifted-hands-g9e8cvz4-fc9c2baf821a91dbc6548e3d8b952fba.jpg"
             alt="Overcomers Chapel"
             className="w-full h-full object-cover"
           />
@@ -143,7 +143,7 @@ export default function HeroSection() {
         </div>
 
         {/* Spacer for sticky effect */}
-        <div className="h-[50vh]" />
+        <div className="" />
       </div>
     </section>
   );
